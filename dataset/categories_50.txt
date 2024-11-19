@@ -1,50 +1,50 @@
-spoon
-soccer ball
-asparagus
-canoe
-aircraft carrier
-pool
-bee
-dolphin
-brain
-cooler
-leg
-cat
-apple
-tooth
-goatee
-pillow
-garden
-suitcase
-skull
-hot tub
-house
-string bean
-line
-matches
-spider
-barn
-snowflake
-blackberry
-line
-binoculars
-steak
-sock
-ocean
-hourglass
-skyscraper
-finger
-garden
-crocodile
-bowtie
-swing set
-door
-dog
-bowtie
-van
-hourglass
-hand
-tooth
-ant
-laptop
-book
+spoon,277
+soccer ball,273
+asparagus,10
+canoe,60
+aircraft carrier,0
+pool,229
+bee,26
+dolphin,92
+brain,40
+cooler,79
+leg,168
+cat,64
+apple,8
+tooth,315
+goatee,130
+pillow,223
+garden,127
+suitcase,294
+skull,264
+hot tub,151
+house,153
+string bean,292
+line,173
+matches,181
+spider,276
+barn,15
+snowflake,271
+blackberry,33
+line,173
+binoculars,30
+steak,284
+sock,274
+ocean,199
+hourglass,152
+skyscraper,265
+finger,112
+garden,127
+crocodile,84
+bowtie,38
+swing set,298
+door,94
+dog,91
+bowtie,38
+van,330
+hourglass,152
+hand,137
+tooth,315
+ant,6
+laptop,166
+book,35

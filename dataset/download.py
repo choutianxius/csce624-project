@@ -19,11 +19,12 @@ with open(categories_path, "r") as f:
     categories = list(filter(bool, [line.strip() for line in f.readlines()]))
 
 # select 50 categories
-categories_50 = random.choices(categories, weights=None, k=50)
+categories_50 = random.choices(list(enumerate(categories)), weights=None, k=50)
 
 categories_50_path = os.path.join(pathlib.Path(__file__).parent, "categories_50.txt")
 with open(categories_50_path, "w") as f:
-    f.write("\n".join(categories_50))
+    for idx, category in categories_50:
+        f.write(f"{category},{idx}\n")
 
 # download
 data_dir_path = os.path.join(
@@ -31,9 +32,11 @@ data_dir_path = os.path.join(
 )
 if not os.path.exists(data_dir_path):
     os.makedirs(data_dir_path)
-for category in tqdm(categories_50):
+for _, category in tqdm(categories_50):
     url = f"https://storage.googleapis.com/quickdraw_dataset/full/simplified/{category}.ndjson"
     save_path = os.path.join(data_dir_path, f"{category}.ndjson")
+    if os.path.exists(save_path):
+        continue
     res = requests.get(url, stream=True)
     with open(save_path, "wb") as f:
         for chunk in res.iter_content(chunk_size=8192):
