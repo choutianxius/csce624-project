@@ -19,9 +19,7 @@ def reservoir_sample_lines(f_path: str, k: int) -> list[str]:
     reservoir = []
 
     with open(f_path, "r") as f:
-        for i, line in tqdm(
-            enumerate(f), desc=f"Sampling lines from {f_path}", position=1, leave=False
-        ):
+        for i, line in tqdm(enumerate(f), position=1, leave=False):
             if i < k:
                 reservoir.append(line.strip())
             else:
