@@ -19,7 +19,8 @@ with open(categories_path, "r") as f:
     categories = list(filter(bool, [line.strip() for line in f.readlines()]))
 
 # select 50 categories
-categories_50 = random.choices(list(enumerate(categories)), weights=None, k=50)
+categories_50 = random.sample(list(enumerate(categories)), k=50)
+assert len(categories_50) == len(set(categories_50))
 
 categories_50_path = os.path.join(pathlib.Path(__file__).parent, "categories_50.txt")
 with open(categories_50_path, "w") as f:
