@@ -24,10 +24,12 @@ The starting point of our dataset of incomplete sketches is the "simplified draw
 
 The Quick, Draw! dataset contains 345 categories. For this project, 50 randomly selected categories are used. In each category, 10000 sketches are randomly sampled, with 8000 as the training set, 1000 as the validation set and 1000 as the test set.
 
-Each sketch is further randomly masked to make them incomplete. We use a combination of the following two masking process:
+Each sketch is further randomly masked to make them incomplete. The masking process goes as follows:
 
-1. Randomly mask one stroke from the sketch.
-2. Randomly mask a portion of selected strokes.
+- Several continuous segments in the original sketch are chosen to be masked.
+- The total length of the masked segments is 20% of the original simplified sketch (by point count).
+- If one masked segment happens to be in the middle of one original stroke, the original stroke is broken into fragments by the masking.
+
 
 Finally, when evaluating different models, the dataset with masked sketches is further processed to fit their input requirements:
 
