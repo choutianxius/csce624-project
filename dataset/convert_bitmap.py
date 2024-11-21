@@ -5,7 +5,7 @@ Convert the masked ndjson sketches into flattened 28x28 bitmaps.
 import os
 import pathlib
 import json
-from utils import vector_to_raster
+from .utils import vector_to_raster
 import numpy as np
 from tqdm import tqdm
 
