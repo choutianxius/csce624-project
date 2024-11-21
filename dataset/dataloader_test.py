@@ -1,8 +1,9 @@
-from dataloader import CnnDataset
+from .dataloader import CnnDataset
 import pathlib
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 
 data_base_dir = os.path.join(pathlib.Path(__file__).parent.parent, "data")
@@ -22,16 +23,19 @@ dataset = CnnDataset(
 )
 
 
-def visualize(idx, dataset):
+def visualize(sample):
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    image, image_masked, label = dataset[idx]
+    image, image_masked, label = sample
     ax1.imshow(image.reshape(28, 28), cmap="gray")
     ax2.imshow(image_masked.reshape(28, 28), cmap="gray")
+    ax1.set_title("Unmasked")
+    ax2.set_title("Masked")
     ax1.set_axis_off()
     ax2.set_axis_off()
 
-    plt.suptitle(label)
+    print(label)
+    plt.tight_layout()
     plt.show()
 
 
-visualize(100, dataset)
+visualize(random.choice(dataset))

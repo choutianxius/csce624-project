@@ -1,6 +1,6 @@
 import json
-from mask import gen_masked
-from utils import vector_to_raster
+from .mask import gen_masked
+from .utils import vector_to_raster
 import matplotlib.pyplot as plt
 
 
@@ -15,6 +15,9 @@ image_masked = vector_to_raster([masked_drawing])[0]
 fig, (ax1, ax2) = plt.subplots(1, 2)
 ax1.imshow(image.reshape(28, 28), cmap="gray")
 ax2.imshow(image_masked.reshape(28, 28), cmap="gray")
+ax1.set_title("Unmasked")
+ax2.set_title("Masked")
 ax1.set_axis_off()
 ax2.set_axis_off()
+plt.tight_layout()
 plt.show()
