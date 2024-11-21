@@ -1,13 +1,13 @@
 import json
 import os
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.preprocessing import LabelEncoder
 
 
 def calculate_rubine_features(drawing):
@@ -87,10 +87,10 @@ y_test_encoded = label_encoder.transform(y_test)
 # List of classifiers to try
 classifiers = {
     "RandomForest": RandomForestClassifier(),
-    # "K-Nearest Neighbors": KNeighborsClassifier(),
-    # "Support Vector Machine": SVC(probability=True),
-    # "Logistic Regression": LogisticRegression(max_iter=1000),
-    # "Decision Tree": DecisionTreeClassifier()
+    "K-Nearest Neighbors": KNeighborsClassifier(),
+    "Support Vector Machine": SVC(probability=True),
+    "Logistic Regression": LogisticRegression(max_iter=1000),
+    "Decision Tree": DecisionTreeClassifier()
 }
 
 # Train and evaluate each classifier
@@ -107,14 +107,14 @@ for name, clf in classifiers.items():
         print(f"{name} does not support probability prediction. Skipping.")
         continue
 
-    # Get top 3 predictions for each sample
-    top_3_predictions = np.argsort(y_proba, axis=1)[:, -3:]
+    # Get top 5 predictions for each sample
+    top_5_predictions = np.argsort(y_proba, axis=1)[:, -5:]
 
-    # Check if any of the top 3 predictions match the true label
-    correct_top_3 = sum(
-        y_test_encoded[i] in top_3_predictions[i]
+    # Check if any of the top 5 predictions match the true label
+    correct_top_5 = sum(
+        y_test_encoded[i] in top_5_predictions[i]
         for i in range(len(y_test_encoded))
     )
 
-    accuracy_top_3 = correct_top_3 / len(y_test_encoded)
-    print(f"Top-3 Accuracy for {name}: {accuracy_top_3}")
+    accuracy_top_5 = correct_top_5 / len(y_test_encoded)
+    print(f"Top-5 Accuracy for {name}: {accuracy_top_5}")

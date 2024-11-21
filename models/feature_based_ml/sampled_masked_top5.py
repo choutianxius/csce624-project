@@ -60,7 +60,8 @@ def load_data_from_folder(folder_path):
             with open(file_path, 'r') as file:
                 for line in file:
                     data = json.loads(line)
-                    label = data['word']
+                    # label = data['word']
+                    label = file_path.split('/')[-1].split('.')[0]
                     drawing = data['drawing']
                     rubine_features = calculate_rubine_features(drawing)
                     features.append(rubine_features)
@@ -69,7 +70,7 @@ def load_data_from_folder(folder_path):
 
 
 # Load and prepare data
-folder = '../sampled/'
+folder = '../sampled_masked/'
 train_features, train_labels = load_data_from_folder(folder + 'training')
 val_features, val_labels = load_data_from_folder(folder + 'validation')
 test_features, test_labels = load_data_from_folder(folder + 'test')
@@ -107,14 +108,14 @@ for name, clf in classifiers.items():
         print(f"{name} does not support probability prediction. Skipping.")
         continue
 
-    # Get top 3 predictions for each sample
-    top_3_predictions = np.argsort(y_proba, axis=1)[:, -3:]
+    # Get top 5 predictions for each sample
+    top_5_predictions = np.argsort(y_proba, axis=1)[:, -5:]
 
-    # Check if any of the top 3 predictions match the true label
-    correct_top_3 = sum(
-        y_test_encoded[i] in top_3_predictions[i]
+    # Check if any of the top 5 predictions match the true label
+    correct_top_5 = sum(
+        y_test_encoded[i] in top_5_predictions[i]
         for i in range(len(y_test_encoded))
     )
 
-    accuracy_top_3 = correct_top_3 / len(y_test_encoded)
-    print(f"Top-3 Accuracy for {name}: {accuracy_top_3}")
+    accuracy_top_5 = correct_top_5 / len(y_test_encoded)
+    print(f"Top-5 Accuracy for {name}: {accuracy_top_5}")
