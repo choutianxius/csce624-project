@@ -79,13 +79,44 @@ model.to(device)
 criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
 
+
+dataset_val = CnnDataset(
+    data_base_dir=os.path.join(pathlib.Path(__file__).parent.parent.parent, "data"),
+    split="validation",
+    categories=categories_50,
+    transform=transform,
+    target_transform=target_transform,
+)
+dataloader_val = DataLoader(dataset=dataset, batch_size=128)
+
+
+def validation_accuracy(model):
+    correct_count = 0
+    total_count = 0
+    for batch in dataloader_val:
+        with torch.no_grad():
+            original, masked, label_ids = batch
+            input_ = processor(
+                masked if args.masked else original, return_tensors="pt"
+            )["pixel_values"]
+            input_ = input_.to(device)
+            target = label_ids.to(device)
+            output = model(pixel_values=input_).logits
+            pred = torch.argmax(output, axis=-1)
+            correct_count += (target == pred).sum()
+            total_count += len(target)
+    return correct_count / total_count
+
+
 # fine-tuning
 num_epochs = 10
 losses = []
+val_acc = []
 for epoch in tqdm(range(num_epochs), position=0):
     t0 = time.time()
     model.train()
     total_loss = 0
+    total_val_acc = 0
 
     for batch in tqdm(dataloader, position=1, leave=False):
         original, masked, label_ids = batch
@@ -104,8 +135,14 @@ for epoch in tqdm(range(num_epochs), position=0):
         total_loss += loss.item()
         losses.append(loss.item())
 
+        batch_val_acc = validation_accuracy(model)
+        total_val_acc += batch_val_acc
+        val_acc.append(batch_val_acc)
+
     print(
-        f"Epoch {epoch}, total time = {time.time() - t0}, average batch loss = {total_loss / len(dataloader)}"
+        f"Epoch {epoch}, total time = {time.time() - t0},"
+        + f"average batch loss = {total_loss / len(dataloader)}, "
+        + f"average batch validation acc = {total_val_acc / len(dataloader)}"
     )
 
 save_dir = os.path.join(
