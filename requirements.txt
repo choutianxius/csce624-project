@@ -1,0 +1,9 @@
+numpy
+matplotlib
+
+tqdm
+requests
+cairocffi
+
+transformers
+sklearn
